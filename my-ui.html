@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+	<title>双列布局，左侧定宽，右侧自适应</title>
+	<style>
+	ul,li{margin:0;padding:0;list-style:none;}
+		li.paging_btns {
+			width: 1em;
+			height: 1em;
+			background-color: #fff;
+			float: left;
+			font-size: 50px;
+			position: relative;
+		}
+		.paging_btn {
+			display: block;
+			width: 0;
+			height: 0;
+			border-width: 0.5em 0.6em;
+			border-style: solid;
+			position: absolute;
+			top: 0;
+		}
+		.paging_btn:before {
+			position: absolute;
+			top: -0.4em;
+			content: " ";
+			display: block;
+			width: 0;
+			height: 0;
+			float: left;
+			border-width: 0.4em 0.5em;
+			border-style: solid;
+		}
+		.paging_btn.prev {
+			left: -0.4em;
+			border-color: transparent red transparent transparent;
+		}
+		.paging_btn.prev:before {
+			right: -0.6em;
+			border-color: transparent #fff transparent transparent;
+		}
+		.paging_btn.next {
+			left: 0.3em;
+			border-color: transparent transparent transparent red;
+		}
+		.paging_btn.next:before {
+			left: -0.6em;
+			border-color: transparent transparent transparent #fff;
+		}
+
+
+
+
+
+		.scrollbar_container {
+			position: relative;
+			overflow: hidden;
+		}
+		.scrollbar_prev {
+			width: 100%;
+			/*height: 100%;*/
+		}
+		.scrollbar_track {
+			position: absolute;
+			right: 0;
+			top:0;
+			width: 20px;
+			height: 100%;
+			background-color: gray;
+		}
+		.scrollbar {
+			width: 100%;
+			height: 50px;
+			border-radius: 8px;
+			background-color: green;
+			cursor: pointer;
+		}
+		.w_txt {
+			width: 100px;
+			height: 300px;
+		}
+	</style>
+</head>
+<body>
+<div class="wrap">
+<ul>
+	<li class="paging_btns"><i class="paging_btn prev"></i></li>
+	<li class="paging_btns"><i class="paging_btn next"></i></li>
+</ul>
+
+
+<div class="scrollbar_container w_txt" data-scrollbar_container="scroll1">
+	<div class="scrollbar_prev txt_cnt" data-scrollbar_prev="scroll1">
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+		sdf <br>
+	</div>
+	<div class="scrollbar_track" data-scrollbar_track="scroll1">
+		<div class="scrollbar" data-scrollbar="scroll1"></div>
+	</div>
+</div>
+</div>
+</body>
+<script src="./js/libs/jquery-1.11.3.min.js"></script>
+<script>
+	$("[data-scrollbar_container]").each(function(e) {
+		var scrollbarType = $(this).attr("data-scrollbar_container");
+		var scrollbarPrev = $(this).find("[data-scrollbar_prev="+ scrollbarType +"]");
+		var scrollbarTrack = $(this).find("[data-scrollbar_track="+ scrollbarType +"]");
+		var scrollbar = $(this).find("[data-scrollbar="+ scrollbarType +"]");
+
+		scrollbar.height($(this).height()/scrollbarPrev.height()*300);
+	});
+	$("[data-scrollbar_container]").on("click", "[data-scrollbar]", function(e) {
+		var scrollbarType = $(this).attr("data-scrollbar_container");
+		var scrollbarPrev = $(this).find("[data-scrollbar_prev="+ scrollbarType +"]");
+		var scrollbarTrack = $(this).find("[data-scrollbar_track="+ scrollbarType +"]");
+		var scrollbar = $(this).find("[data-scrollbar="+ scrollbarType +"]");
+		$(this).mousemove();
+	});
+</script>
+<html>
