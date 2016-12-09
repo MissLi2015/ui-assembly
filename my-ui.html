@@ -66,23 +66,29 @@
 
 	/*自定义滚动条
 	----------------------------------------------------------------------------------------------------*/
-		.scrollbar_container {
+		[data-scrollbar_container] {
+			box-sizing: content-box;
 			position: relative;
 			overflow: hidden;
+			border: 1px solid #ccc;
 		}
-		.scrollbar_prev {
+		[data-scrollbar_prev] {
+			box-sizing: border-box;
 			width: 100%;
+			padding: 10px;
 			/*height: 100%;*/
 		}
-		.scrollbar_track {
+		[data-scrollbar_track] {
 			position: absolute;
 			right: 0;
-			top:0;
+			top: 0;
 			width: 5px;
 			height: 100%;
 			background-color: #eee;
 		}
-		.scrollbar {
+		[data-scrollbar] {
+			position: absolute;
+			top: 0;
 			width: 100%;
 			height: 50px;
 			border-radius: 8px;
@@ -208,20 +214,28 @@
 <script>
 /*自定义滚动条
 ----------------------------------------------------------------------------------------------------*/
-	$("[data-scrollbar_container]").each(function(e) {
+	$("[data-scrollbar_container]").each(function() {
 		var scrollbarType = $(this).attr("data-scrollbar_container");
-		var scrollbarPrev = $(this).find("[data-scrollbar_prev="+ scrollbarType +"]");
-		var scrollbarTrack = $(this).find("[data-scrollbar_track="+ scrollbarType +"]");
-		var scrollbar = $(this).find("[data-scrollbar="+ scrollbarType +"]");
+		var $scrollbarPrev = $(this).find("[data-scrollbar_prev="+ scrollbarType +"]");
+		var $scrollbarTrack = $(this).find("[data-scrollbar_track="+ scrollbarType +"]");
+		var $scrollbar = $(this).find("[data-scrollbar="+ scrollbarType +"]");
 
-		scrollbar.height($(this).height()/scrollbarPrev.height()*300);
+		$scrollbar.height($(this).height()/$scrollbarPrev.height()*300);
 	});
-	$("[data-scrollbar_container]").on("click", "[data-scrollbar]", function(e) {
-		var scrollbarType = $(this).attr("data-scrollbar_container");
-		var scrollbarPrev = $(this).find("[data-scrollbar_prev="+ scrollbarType +"]");
-		var scrollbarTrack = $(this).find("[data-scrollbar_track="+ scrollbarType +"]");
-		var scrollbar = $(this).find("[data-scrollbar="+ scrollbarType +"]");
-		$(this).mousemove();
+	$("[data-scrollbar_container]").on("mousedown", "[data-scrollbar]", function(e) {
+		var $scrollbar = $(this);
+		$scrollbar.beforeClientY = e.clientX; //移动前的clientX
+		console.log($scrollbar.beforeClientY)
+		$("html").mousemove(function(e) {
+			console.log(e.clientX - $scrollbar.beforeClientY, $scrollbar.position().top);
+			// $scrollbar.css({
+			// 	"top": $scrollbar.position().top
+			// });
+			$scrollbar.beforeClientY = e.clientX;
+		});
+		$("html").mouseup(function(e) {
+			$("html").unbind("mousemove");
+		});
 	});
 
 
